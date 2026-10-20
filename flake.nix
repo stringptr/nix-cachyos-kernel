@@ -11,10 +11,11 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://attic.xuyh0120.win/lantian"
+      "https://stringptr.cachix.org"
     ];
+
     extra-trusted-public-keys = [
-      "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+      "stringptr.cachix.org-1:QqkadKBexul9n15fldZGqAoxos14/5PfHVoL6O91EKk="
     ];
   };
 
@@ -109,58 +110,9 @@
           hydraJobs = {
             packages.x86_64-linux = {
               inherit (self.packages.x86_64-linux)
-                # Latest kernel
-                linux-cachyos-latest
-                linux-cachyos-latest-lto
-                linux-cachyos-latest-lto-x86_64-v2
-                linux-cachyos-latest-lto-x86_64-v3
-                linux-cachyos-latest-lto-x86_64-v4
-                linux-cachyos-latest-lto-zen4
-                linux-cachyos-latest-x86_64-v2
                 linux-cachyos-latest-x86_64-v3
-                linux-cachyos-latest-x86_64-v4
-                linux-cachyos-latest-zen4
-                # LTS kernel
-                linux-cachyos-lts
-                linux-cachyos-lts-lto
-                linux-cachyos-lts-lto-x86_64-v2
-                linux-cachyos-lts-lto-x86_64-v3
-                linux-cachyos-lts-lto-x86_64-v4
-                linux-cachyos-lts-lto-zen4
-                linux-cachyos-lts-x86_64-v2
-                linux-cachyos-lts-x86_64-v3
-                linux-cachyos-lts-x86_64-v4
-                linux-cachyos-lts-zen4
-                # Latest kernel with BORE scheduler
-                linux-cachyos-bore
-                linux-cachyos-bore-lto
-                linux-cachyos-bore-lto-x86_64-v2
-                linux-cachyos-bore-lto-x86_64-v3
-                linux-cachyos-bore-lto-x86_64-v4
-                linux-cachyos-bore-lto-zen4
-                linux-cachyos-bore-x86_64-v2
-                linux-cachyos-bore-x86_64-v3
-                linux-cachyos-bore-x86_64-v4
-                linux-cachyos-bore-zen4
-                # Additional CachyOS kernel variants
-                linux-cachyos-bmq
-                linux-cachyos-deckify
-                linux-cachyos-eevdf
-                linux-cachyos-hardened
-                linux-cachyos-rc
-                linux-cachyos-rt-bore
-                linux-cachyos-server
-                # ZFS, latest and LTS
-                zfs-cachyos
-                zfs-cachyos-lto
-                zfs-cachyos-lts
-                zfs-cachyos-lts-lto
-                # ZFS, less used variants
-                zfs-cachyos-hardened
-                zfs-cachyos-rc
                 ;
             };
-            nixosConfigurations = lib.mapAttrs (n: v: v.config.system.build.toplevel) self.nixosConfigurations;
           };
 
           # Example configurations for testing CachyOS kernel

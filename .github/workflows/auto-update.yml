@@ -74,3 +74,17 @@ jobs:
           commit_message: 'Auto update flake'
           commit_user_name: 'xddxdd-bot'
           commit_user_email: 'xddxdd-bot@users.noreply.github.com'
+
+      - name: Set up Cachix
+        uses: cachix/cachix-action@v17
+        with:
+          name: stringptr
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: true
+
+      - name: Build and cache linux-cachyos-latest-x86_64-v3
+        env:
+          TMPDIR: /nix/tmpdir
+        run: |
+          out=$(nix build --no-link --print-out-paths .#linux-cachyos-latest-x86_64-v3)
+          cachix push stringptr "$out"
