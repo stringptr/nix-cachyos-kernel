@@ -94,7 +94,7 @@ Add the `release` branch of this repo to the inputs section of your `flake.nix`:
 }
 ```
 
-The `release` branch contains the latest kernel that has been built by my [Hydra CI](https://hydra.lantian.pub/jobset/lantian/nix-cachyos-kernel) and is present in binary cache.
+The `release` branch contains the latest kernel that has been built and is present in the [binary cache](https://stringptr.cachix.org).
 
 > If you want the absolute latest version with or without binary cache, use the `master` branch (default branch) instead:
 >
@@ -180,35 +180,22 @@ but note that you will have to manually update the revision and hash to update y
 
 ### Binary cache
 
-The binary cache is automatically configured via [`nixConfig`](flake.nix:12-19) in this flake, so Nix will prompt you to accept it when you first use this repo.
+The binary cache is automatically configured via [`nixConfig`](flake.nix:12-20) in this flake, so Nix will prompt you to accept it when you first use this repo.
 
-I'm running a Hydra CI to build the kernels and push them to my Attic binary cache. You can see the build status here: <https://hydra.lantian.pub/jobset/lantian/nix-cachyos-kernel>
+Kernels are built by GitHub Actions and pushed to the [`stringptr`](https://stringptr.cachix.org) Cachix binary cache.
 
-Due to build capacity limitations, LTO variants of the less used kernels (`bmq`, `deckify`, `eevdf`, `hardened`, `rc`, `rt-bore`, `server`) are not built.
+Only `linux-cachyos-latest-x86_64-v3` is built and cached; other variants will be compiled locally.
 
 If you prefer to manually configure the binary cache (or are not using flakes), add the following config:
 
 ```nix
 {
-  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+  nix.settings.substituters = [ "https://stringptr.cachix.org" ];
+  nix.settings.trusted-public-keys = [ "stringptr.cachix.org-1:QqkadKBexul9n15fldZGqAoxos14/5PfHVoL6O91EKk=" ];
 }
 ```
 
 **Important:** As with all binary caches, after adding binary cache to your NixOS configuration, please apply your settings once before enabling CachyOS kernel, so that the binary cache settings can take effect.
-
-#### Alternative binary cache
-
-> Disclaimer: I cannot guarantee the security or availability of these binary caches not maintained by me.
-
-[@bahrom04](https://github.com/bahrom04) is also providing CachyOS kernel builds mirrored from this repo. See [#89](https://github.com/xddxdd/nix-cachyos-kernel/issues/89) for details.
-
-```nix
-{
-  nix.settings.substituters = [ "https://cache.xinux.uz" ];
-  nix.settings.trusted-public-keys = [ "cache.xinux.uz:BXCrtqejFjWzWEB9YuGB7X2MV4ttBur1N8BkwQRdH+0=" ];
-}
-```
 
 ### Example configuration
 
