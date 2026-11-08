@@ -82,9 +82,12 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           skipPush: true
 
-      - name: Build and cache linux-cachyos-latest-x86_64-v3
+      - name: Build, cache, and pin linux-cachyos-latest-x86_64-v3
         env:
           TMPDIR: /nix/tmpdir
         run: |
-          outs=$(nix build --no-link --print-out-paths '.#linux-cachyos-latest-x86_64-v3^*')
-          cachix push stringptr $outs
+          out=$(nix build --no-link --print-out-paths .#linux-cachyos-latest-x86_64-v3)
+          cachix push stringptr "$out"
+          # Keep the current and previous kernel GC-protected; older revisions
+          # are dropped from the pin and reclaimed by Cachix garbage collection.
+          cachix pin stringptr linux-cachyos-latest-x86_64-v3 "$out" --keep-revisions 2

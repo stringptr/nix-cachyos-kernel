@@ -186,6 +186,8 @@ Kernels are built by GitHub Actions and pushed to the [`stringptr`](https://stri
 
 Only `linux-cachyos-latest-x86_64-v3` is built and cached; other variants will be compiled locally.
 
+The cached kernel is pinned in Cachix with a retention of the last 2 revisions (current and previous), so older kernels are garbage-collected automatically while still allowing a rollback to the previous kernel.
+
 If you prefer to manually configure the binary cache (or are not using flakes), add the following config:
 
 ```nix
